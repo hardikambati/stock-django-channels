@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Channel</title>
+</head>
+
+<style>
+    .container{
+        text-align: center;
+        margin-top: 20%;
+        font-size: 40px;
+        font-family: monospace;
+    }
+    #basic-select{
+        margin-top: 3%;
+    }
+</style>
+
+<body>
+
+    <div class="container">
+        <div id="mytext">
+            {{ text }}
+        </div>
+        
+        
+        <!--     
+        <form action="" method="GET">
+            <select
+            class="select" multiple
+            id="basic-select">
+                <option value="NIFTY">NIFTY</option>
+                <option value="RELIANCE">RELIANCE</option>
+                <option value="INFY">INFY</option>
+            </select>
+            <input type="submit" id="submit" class="btn btn-primary btn-sm mt-3">
+        </form> -->
+    </div>
+
+    <script src="{% static 'main.js' %}"></script>
+
+</body>
+</html>
