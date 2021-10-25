@@ -65,10 +65,13 @@ class LiveCall:
 
         div_container_change = soup.find('div', {"class" : "P6K39c"})
 
+        div_container_percent = soup.find('div', {"class": "JwB6zf"})
+
         current_price = div_container_price.text
 
         previous_price = div_container_change.text
-        
+
+        percent_price = div_container_percent.text
 
         if(current_price[0] == '₹'):
 
@@ -82,7 +85,7 @@ class LiveCall:
 
         change = "{:.2f}".format(change_float)
 
-        return current_price, change
+        return current_price, change, percent_price
 
 
 class OHLCCall:
