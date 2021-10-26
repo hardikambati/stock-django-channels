@@ -73,6 +73,8 @@ class LiveCall:
 
         percent_price = div_container_percent.text
 
+        print('-----here-----')
+
         if(current_price[0] == '₹'):
 
             current_price = current_price[1:]

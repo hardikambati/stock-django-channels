@@ -37,7 +37,7 @@ def fetch_value(self, stocklist):
 
     if(number_of_users == 0):
 
-        tasks = PeriodicTask.objects.filter(name="every-5-seconds")
+        tasks = PeriodicTask.objects.filter(name="every-2-seconds")
 
         schedules = IntervalSchedule.objects.filter(every=5)
 
@@ -74,9 +74,13 @@ def fetch_value(self, stocklist):
 
             div_container_change = soup.find('div', {"class" : "P6K39c"})
 
+            div_container_percent = soup.find('div', {"class": "JwB6zf"})
+
             current_price = div_container_price.text
 
             previous_price = div_container_change.text
+
+            percent_price = div_container_percent.text
 
             if(current_price[0] == '₹'):
 
@@ -99,7 +103,8 @@ def fetch_value(self, stocklist):
         result.append({
             'company': i,
             'price': current_price,
-            'change': change
+            'change': change, 
+            'percent': percent_price
         })    
 
     channel_layer = get_channel_layer()

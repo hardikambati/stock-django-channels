@@ -20,7 +20,7 @@ class StockConsumer(AsyncWebsocketConsumer):
     @sync_to_async
     def addToCeleryBeat(self, stocklist):
 
-        task = PeriodicTask.objects.filter(name="every-5-seconds")
+        task = PeriodicTask.objects.filter(name="every-2-seconds")
 
         if(len(task)>0):
             
@@ -39,9 +39,9 @@ class StockConsumer(AsyncWebsocketConsumer):
 
         else:
 
-            schedule, created = IntervalSchedule.objects.get_or_create(every=5, period=IntervalSchedule.SECONDS)
+            schedule, created = IntervalSchedule.objects.get_or_create(every=2, period=IntervalSchedule.SECONDS)
 
-            task = PeriodicTask.objects.create(interval=schedule, name='every-5-seconds', task='stock_a.tasks.fetch_value', args=json.dumps([stocklist]))
+            task = PeriodicTask.objects.create(interval=schedule, name='every-2-seconds', task='stock_a.tasks.fetch_value', args=json.dumps([stocklist]))
 
 
     @sync_to_async
