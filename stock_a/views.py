@@ -109,3 +109,18 @@ class LiveData(APIView):
         print('------ called ------')
         
         return Response(result)
+
+
+class News(APIView):
+
+    """
+        fetch all news for NEWS page
+    """
+
+    def get(self, request):
+
+        query = utility.NewsCall()
+
+        news = query.call() 
+
+        return Response(news)

@@ -7,4 +7,5 @@ urlpatterns = [
     path('fetch-history-data/', views.HistoryData.as_view()),
     path('fetch-ohlc-data/', views.OHLC.as_view()),
     path('fetch-live-data/', views.LiveData.as_view()),
+    path('fetch-latest-news/', views.News.as_view()),
 ]

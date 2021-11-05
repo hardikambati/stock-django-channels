@@ -234,3 +234,24 @@ class StaticCall:
             date, price = self.filter_period(company, self.day)
 
         return date, price
+
+
+class NewsCall:
+
+    def call(self):
+
+        request = requests.get('https://www.indiainfoline.com/top-share-market-news', headers={'User-Agent': 'Mozilla/5.0'})
+
+        soup = BeautifulSoup(request.content, features="html.parser")
+
+        div_container_price = soup.find('div', {"class" : "stockleft"})
+
+        ul_container = div_container_price.find('ul', {"class": "common_list stockidealist"})
+
+        news = []
+
+        for tag in ul_container.findAll('p', {"class": "heading"}):
+
+            news.append(tag.get_text()[1:])
+
+        return news
