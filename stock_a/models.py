@@ -19,3 +19,17 @@ class ChannelName(models.Model):
     def __str__(self):
         
         return self.channel_name
+
+
+class AllStock(models.Model):
+
+    stock = models.CharField(max_length=500)
+
+    def __str__(self):
+
+        return self.stock
+
+
+class Watchlist(models.Model):
+
+    stock = models.ManyToManyField(to=AllStock, blank=True)

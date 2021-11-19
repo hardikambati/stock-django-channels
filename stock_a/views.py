@@ -40,7 +40,6 @@ class HistoryData(APIView):
         return Response(query_res)
 
 
-
 class OHLC(APIView):
 
     """
@@ -60,7 +59,6 @@ class OHLC(APIView):
         query_res = query.call()
 
         return Response(query_res)
-
 
 
 class LiveData(APIView):

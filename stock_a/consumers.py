@@ -28,11 +28,13 @@ class StockConsumer(AsyncWebsocketConsumer):
             args = json.loads(task.args)
             args = args[0]
             
-            for x in stocklist:
+            # for x in stocklist:
 
-                if x not in args:
+            #     if x not in args:
 
-                    args.append(x)
+            #         args.append(x)
+
+            args = stocklist
             
             task.args = json.dumps([args])
             task.save()
@@ -64,11 +66,21 @@ class StockConsumer(AsyncWebsocketConsumer):
         target.delete()
 
 
+    @sync_to_async
+    def get_watchlist(self):
+
+        watchlist = models.Watchlist.objects.all()[0]
+
+        watchlist_list = [stock.stock for stock in watchlist.stock.all()]   
+
+        return watchlist_list
+
+
     async def connect(self):
 
         self.room_name = self.scope['url_route']['kwargs']['room_name']
 
-        self.stock_list = self.scope['url_route']['kwargs']['stock_list']
+        # self.stock_list = self.scope['url_route']['kwargs']['stock_list']
 
         self.room_group_name = 'stock_%s' % self.room_name
         
@@ -80,7 +92,9 @@ class StockConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-        stock_list = self.stock_list.split('-')
+        # stock_list = self.stock_list.split('-')
+
+        stock_list = await self.get_watchlist()
 
         await self.addToCeleryBeat(stock_list)
 

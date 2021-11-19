@@ -3,4 +3,4 @@ from . import models
 
 # Register your models here.
 
-admin.site.register([models.Room, models.ChannelName])
+admin.site.register([models.Room, models.ChannelName, models.AllStock, models.Watchlist])
