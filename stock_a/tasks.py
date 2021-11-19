@@ -29,6 +29,15 @@ GOOGLE_FINANCE = {
 }
 
 
+def calculate_percentage(price, change):
+
+    price = price.replace(",", "")
+
+    percent = (float(change)/float(price))*100
+
+    return percent
+
+
 @shared_task(bind=True)
 def fetch_value(self, stocklist):
 
@@ -74,13 +83,9 @@ def fetch_value(self, stocklist):
 
             div_container_change = soup.find('div', {"class" : "P6K39c"})
 
-            div_container_percent = soup.find('div', {"class": "JwB6zf"})
-
             current_price = div_container_price.text
 
             previous_price = div_container_change.text
-
-            percent_price = div_container_percent.text
 
             if(current_price[0] == '₹'):
 
@@ -93,6 +98,8 @@ def fetch_value(self, stocklist):
             change_float = float(current_price.replace(",", "")) - float(previous_price.replace(",", ""))
 
             change = "{:.2f}".format(change_float)
+
+            percent_price = "{:.2f}".format(calculate_percentage(current_price, change))
 
         except:
 
