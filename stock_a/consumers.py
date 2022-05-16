@@ -48,15 +48,13 @@ class StockConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def addToCustomRoom(self):
-
-        room = models.Room.objects.all()[0]
+        room = models.Room.objects.all().first()
         
         # add to database
         models.ChannelName.objects.create(
             room_name = room,
             channel_name = self.channel_name
         )
-
 
     @sync_to_async
     def removeFromCustomRoom(self):
@@ -93,7 +91,7 @@ class StockConsumer(AsyncWebsocketConsumer):
         )
 
         # stock_list = self.stock_list.split('-')
-
+        print('----------------- connected ----------------')
         stock_list = await self.get_watchlist()
 
         await self.addToCeleryBeat(stock_list)
