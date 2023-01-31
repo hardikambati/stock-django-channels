@@ -105,6 +105,10 @@ def fetch_value(self, stocklist):
 
             current_price = ''
 
+            percent_price = ''
+
+            change = ''
+
             previous_price = ''
 
         result.append({
