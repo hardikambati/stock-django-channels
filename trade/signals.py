@@ -8,7 +8,7 @@ from rest_framework import status, exceptions
 from . import models
 
 
-custom_intraday_activity_trade_signal = dispatch.Signal(providing_args=["request", "instance"])
+custom_intraday_activity_trade_signal = dispatch.Signal(["request", "instance"])
 
 
 @receiver(post_save, sender=models.DeliveryActivity)

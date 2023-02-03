@@ -7,3 +7,6 @@ worker:
 
 beat:
 # celery -A stock_p beat -l INFO
+
+websocket connection:
+# ws://localhost:8000/ws/stock/stock_room/SBI/

@@ -2,6 +2,8 @@
 import os
 from celery import Celery
 from django.conf import settings
+from celery.schedules import crontab
+from datetime import timedelta
 
 
 # Set the default Django settings module for the 'celery' program.
@@ -14,11 +16,11 @@ app.conf.update(timezone='Asia/Kolkata')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.conf.beat_schedule = {
-    # 'every-10-seconds': {
-    #     'task': 'stock_a.tasks.fetch_value',
-    #     'schedule': 10,
-    #     'args': (),
-    # },
+    'every-10-seconds': {
+        'task': 'stock_a.tasks.fetch_value',
+        'schedule': 10,
+        'args': (['SBI']),
+    },
 }
 
 # Load task modules from all registered Django apps.

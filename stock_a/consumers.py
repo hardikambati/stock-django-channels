@@ -20,7 +20,7 @@ class StockConsumer(AsyncWebsocketConsumer):
     @sync_to_async
     def addToCeleryBeat(self, stocklist):
 
-        task = PeriodicTask.objects.filter(name="every-2-seconds")
+        task = PeriodicTask.objects.filter(name="every-10-seconds")
 
         if(len(task)>0):
             
@@ -41,9 +41,9 @@ class StockConsumer(AsyncWebsocketConsumer):
 
         else:
 
-            schedule, created = IntervalSchedule.objects.get_or_create(every=2, period=IntervalSchedule.SECONDS)
+            schedule, created = IntervalSchedule.objects.get_or_create(every=10, period=IntervalSchedule.SECONDS)
 
-            task = PeriodicTask.objects.create(interval=schedule, name='every-2-seconds', task='stock_a.tasks.fetch_value', args=json.dumps([stocklist]))
+            task = PeriodicTask.objects.create(interval=schedule, name='every-10-seconds', task='stock_a.tasks.fetch_value', args=json.dumps([stocklist]))
 
 
     @sync_to_async
@@ -113,24 +113,25 @@ class StockConsumer(AsyncWebsocketConsumer):
 
 
     # Receive message from WebSocket
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+    # async def receive(self, text_data):
+    #     print('-------- receive function -----------')
+    #     # text_data_json = json.loads(text_data)
+    #     # print(text_data_json)
+    #     # message = text_data_json['message']
 
-        # Send message to room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'stock_update',
-                'message': message
-            }
-        )
+    #     # Send message to room group
+    #     await self.channel_layer.group_send(
+    #         self.room_group_name,
+    #         {
+    #             'type': 'stock_update',
+    #             'message': text_data
+    #         }
+    #     )
 
 
     # Receive message from room group
     async def stock_update(self, event):
         message = event['message']
-
         # Send message to WebSocket
         await self.send(text_data=json.dumps(message))
 

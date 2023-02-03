@@ -39,14 +39,14 @@ def calculate_percentage(price, change):
 
 
 @shared_task(bind=True)
-def fetch_value(self, stocklist):
+def fetch_value(self, stocklist=['SBI']):
 
     # check whether there are users in the channel
     number_of_users = models.ChannelName.objects.count()
 
     if(number_of_users == 0):
 
-        tasks = PeriodicTask.objects.filter(name="every-2-seconds")
+        tasks = PeriodicTask.objects.filter(name="every-10-seconds")
 
         schedules = IntervalSchedule.objects.filter(every=5)
 
@@ -120,9 +120,8 @@ def fetch_value(self, stocklist):
 
     channel_layer = get_channel_layer()
 
-    loop = asyncio.new_event_loop()
-
-    asyncio.set_event_loop(loop)
+    loop = asyncio.get_event_loop()
+    # asyncio.set_event_loop(loop)
 
     loop.run_until_complete(channel_layer.group_send('stock_stock_room', {
         'type': 'stock_update',
