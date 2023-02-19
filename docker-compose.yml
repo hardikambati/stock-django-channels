@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3.9.7-alpine
+    ports:
+      - 5672:5672
+      
+  redis:
+    image: redis:5.0.7-alpine
+    ports: 
+      - 6379:6379
+
+  wsgi_app:
+    build: .
+    container_name: stock_wsgi
+    restart: always
+    ports: 
+      - 8000:8000
+    volumes:
+      - ./:/code
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+
+  celery_beat:
+    restart: always
+    build: 
+      context: .
+    command: celery -A stock_p beat -l INFO
+    volumes:
+      - ./:/code
+    depends_on:
+      - wsgi_app
+
+  celery_worker:
+    restart: always
+    build:
+      context: .
+    command: celery -A stock_p.celery worker --pool=prefork -l info
+    volumes:
+      - ./:/code
+    depends_on:
+      - wsgi_app
+      - celery_beat
+
+  asgi_app:
+    build: .
+    container_name: stock_asgi
+    restart: always
+    ports:
+      - 8001:8001
+    volumes:
+      - ./:/code
+    command: >
+      sh -c "daphne -b 0.0.0.0 -p 8001 stock_p.asgi:application"
+    depends_on:
+      - redis
+      - wsgi_app

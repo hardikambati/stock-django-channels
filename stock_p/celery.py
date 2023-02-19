@@ -19,7 +19,7 @@ app.conf.beat_schedule = {
     'every-10-seconds': {
         'task': 'stock_a.tasks.fetch_value',
         'schedule': 10,
-        'args': (['SBI']),
+        'args': ([['SBI']]),
     },
 }
 

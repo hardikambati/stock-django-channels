@@ -40,6 +40,7 @@ class IntradayView(APIView):
 
     def get(self, request):
         instance = request.user.intraday_set.all()
+
         serializer = serializers.IntradaySerializer(
             instance,
             many=True

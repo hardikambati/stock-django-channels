@@ -39,7 +39,7 @@ def calculate_percentage(price, change):
 
 
 @shared_task(bind=True)
-def fetch_value(self, stocklist=['SBI']):
+def fetch_value(self, stocklist):
 
     # check whether there are users in the channel
     number_of_users = models.ChannelName.objects.count()
@@ -69,8 +69,9 @@ def fetch_value(self, stocklist=['SBI']):
         # print(f'stopped task with id {current_task.request.id}')
 
     result = []
+    print(type(stocklist))
     for i in stocklist:
-
+        print(i)
         try:
     
             filter_ticker = GOOGLE_FINANCE[i]
